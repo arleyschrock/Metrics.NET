@@ -1,10 +1,29 @@
 ﻿using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Metrics.Logging;
 using Metrics.Utils;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+
+namespace System.Configuration
+{
+    public static class ConfigurationManager
+    {
+        public static IConfiguration BaseConfiguration { get; set; }
+        public static void Build(Action<IConfigurationBuilder> config)
+        {
+            var builder = new ConfigurationBuilder();
+            config(builder);
+            BaseConfiguration = builder.Build();
+        }
+
+        public static IConfiguration AppSettings{
+            get => BaseConfiguration;
+        }
+    }
+}
 
 namespace Metrics
 {
@@ -17,9 +36,9 @@ namespace Metrics
 
         private static readonly DefaultMetricsContext globalContext;
         private static readonly MetricsConfig config;
-        
+
         internal static readonly MetricsContext Internal = new DefaultMetricsContext("Metrics.NET");
-        
+
         static Metric()
         {
             globalContext = new DefaultMetricsContext(GetGlobalContextName());

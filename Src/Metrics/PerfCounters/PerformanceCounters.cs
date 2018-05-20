@@ -115,7 +115,7 @@ namespace Metrics.PerfCounters
         {
             try
             {
-                return WindowsIdentity.GetCurrent().Name;
+                return Environment.UserName;
             }
             catch (Exception x)
             {
