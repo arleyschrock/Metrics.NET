@@ -211,7 +211,7 @@ namespace Metrics
         /// </remarks>
         /// <param name="extension">Action to apply extra configuration.</param>
         /// <returns>The result of calling the extension.</returns>
-        [Obsolete("This configuration method ignores the CompletelyDisableMetrics setting. Please use the overload instead.")]
+        [Obsolete("This configuration method ignores the CompletelyDisaableMetrics setting. Please use the overload instead.")]
         public T WithConfigExtension<T>(Func<MetricsContext, Func<HealthStatus>, T> extension)
         {
             return extension(this.context, this.healthStatus);

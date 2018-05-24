@@ -1,29 +1,12 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Metrics.Logging;
 using Metrics.Utils;
-using Microsoft.Extensions.Configuration;
 using System.Configuration;
-
-namespace System.Configuration
-{
-    public static class ConfigurationManager
-    {
-        public static IConfiguration BaseConfiguration { get; set; }
-        public static void Build(Action<IConfigurationBuilder> config)
-        {
-            var builder = new ConfigurationBuilder();
-            config(builder);
-            BaseConfiguration = builder.Build();
-        }
-
-        public static IConfiguration AppSettings{
-            get => BaseConfiguration;
-        }
-    }
-}
 
 namespace Metrics
 {
@@ -41,6 +24,12 @@ namespace Metrics
 
         static Metric()
         {
+            ConfigurationManager.Build(builder =>
+            {
+                builder.AddJsonFile("appsettings.json", true, true)
+                    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", true, true)
+                    .Build();
+            });
             globalContext = new DefaultMetricsContext(GetGlobalContextName());
             if (MetricsConfig.GloballyDisabledMetrics)
             {
@@ -87,6 +76,7 @@ namespace Metrics
         {
             globalContext.ShutdownContext(contextName);
         }
+
 
         /// <summary>
         /// Entrypoint for Global Metrics Configuration.
