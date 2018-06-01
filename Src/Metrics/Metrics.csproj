@@ -8,5 +8,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="2.0.2"/>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2"/>
+    <PackageReference Include="System.Diagnostics.PerformanceCounter" Version="4.5.0"/>
   </ItemGroup>
 </Project>
